@@ -1,0 +1,62 @@
+:root {
+  --bg-page: #11100e;
+  --bg-table: #181613;
+  --bg-panel: #211e19;
+  --bg-panel-2: #2a251e;
+  --bg-inset: #0b0a09;
+  --bg-hover: #332d24;
+  --bg-disabled: #171615;
+
+  --text-main: #f2e8d8;
+  --text-sub: #c7b79d;
+  --text-muted: #8e826f;
+  --text-inverse: #17120d;
+  --border-soft: #443b2e;
+  --border-strong: #6e5b3f;
+  --border-focus: #d6a84b;
+
+  --hp: #b83a32;
+  --hp-dark: #5b1d19;
+  --block: #6e9fb7;
+  --energy: #e0a638;
+  --gold: #d8a33e;
+  --poison: #74a34a;
+  --power: #8d6fd1;
+  --danger: #d14b3f;
+  --success: #6ea66f;
+  --warning: #d28a36;
+  --info: #6ca8b8;
+
+  --card-attack: #7b2f2a;
+  --card-skill: #2f5e70;
+  --card-power: #5c4a8e;
+  --card-status: #5d5a52;
+  --card-curse: #322238;
+  --card-body: #e7d7b6;
+  --card-border: #5a4630;
+  --card-selected: #f0b84e;
+  --card-unplayable: #4a4740;
+
+  --shadow-panel: 0 8px 24px rgba(0, 0, 0, .35);
+  --shadow-card: 0 6px 14px rgba(0, 0, 0, .42);
+  --shadow-pop: 0 10px 28px rgba(0, 0, 0, .55);
+  --shadow-stage: inset 0 0 90px rgba(0, 0, 0, .72), inset 0 -90px 120px rgba(0, 0, 0, .46);
+  --shadow-card-heavy: 0 14px 28px rgba(0, 0, 0, .56), 0 2px 0 rgba(255, 232, 184, .16) inset, 0 -8px 18px rgba(0, 0, 0, .22) inset;
+  --glow-focus: 0 0 0 2px #d6a84b, 0 0 18px rgba(214, 168, 75, .35);
+  --glow-danger: 0 0 18px rgba(209, 75, 63, .38);
+  --glow-block: 0 0 16px rgba(110, 159, 183, .32);
+  --glow-gold-strong: 0 0 0 1px rgba(255, 222, 126, .58), 0 0 24px rgba(216, 163, 62, .52), 0 0 58px rgba(216, 163, 62, .18);
+
+  --font-ui: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-title: "Cinzel", "Noto Serif SC", "Songti SC", serif;
+  --font-number: "DIN Alternate", "Barlow Condensed", Arial, sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
