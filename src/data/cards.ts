@@ -1,4 +1,5 @@
 import type { CardAnimationMeta, CardDef, CardInstance, Rarity } from "../game/types";
+import { publicAssetPath } from "../lib/assets";
 
 let cardInstanceSeq = 0;
 
@@ -71,7 +72,7 @@ const card = (
   block: effects.find((effect) => effect.kind === "block")?.amount,
   effects,
   upgradedEffects,
-  assetPath: `/assets/cards/${assetByCardId[id] ?? `card-${id}-01.webp`}`,
+  assetPath: publicAssetPath(`cards/${assetByCardId[id] ?? `card-${id}-01.webp`}`),
   animation: animationByCardId[id]
 });
 

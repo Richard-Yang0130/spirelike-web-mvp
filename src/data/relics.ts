@@ -1,4 +1,5 @@
 import type { RelicDef } from "../game/types";
+import { publicAssetPath } from "../lib/assets";
 
 const relicAssetById: Record<string, string> = {
   "old-coin": "relic-old-compass-01.png",
@@ -33,7 +34,7 @@ export const relics: RelicDef[] = [
   hook,
   description,
   rarity: id === "tower-key" || id === "paper-fang" ? "rare" : "common",
-  assetPath: `/assets/relics/${relicAssetById[id] ?? `relic-${id}-01.png`}`
+  assetPath: publicAssetPath(`relics/${relicAssetById[id] ?? `relic-${id}-01.png`}`)
 })) as RelicDef[];
 
 export const relicsById = Object.fromEntries(relics.map((item) => [item.id, item])) as Record<string, RelicDef>;

@@ -1,4 +1,6 @@
-export const assetPath = (path: string) => `/assets/${path}`;
+import { publicAssetPath } from "../../lib/assets";
+
+export const assetPath = publicAssetPath;
 
 export const sceneAssets = {
   battle: assetPath("scenes/scene-battle-01.webp"),
