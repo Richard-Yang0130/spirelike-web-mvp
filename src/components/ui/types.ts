@@ -44,6 +44,7 @@ export type UiCard = {
   name: string;
   cost: number | "X";
   type: CardType;
+  target?: "enemy" | "self" | "all_enemies" | "none";
   rarity: CardRarity;
   description: string;
   art: string;

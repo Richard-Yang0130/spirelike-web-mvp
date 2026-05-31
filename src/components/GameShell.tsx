@@ -129,17 +129,17 @@ export function GameShell() {
           damagedEnemyIds={damagedEnemyIds}
           floatingNumbers={floatingNumbers}
           screenTransitionKey={screenTransitionKey}
-          onPlayCard={(card) => {
+          onPlayCard={(card, targetEnemyId) => {
             if (!run.combat) return;
             const cardInstance = run.combat.hand.find((item) => item.uuid === card.id);
             if (!cardInstance) return;
             const cardDef = cardsById[cardInstance.cardId];
+            if (cardDef.target === "enemy" && !targetEnemyId) return;
             const cardAnimation = getCardAnimation(cardInstance);
-            const targetId = run.combat.enemies.find((enemy) => enemy.hp > 0)?.id;
             const hpBefore = new Map(run.combat.enemies.map((enemy) => [enemy.id, enemy.hp]));
             const blockBefore = run.combat.block;
             const logCountBefore = run.combat.log.length;
-            playCard(run.combat, card.id, targetId);
+            playCard(run.combat, card.id, targetEnemyId);
             const damaged = run.combat.enemies.filter((enemy) => (hpBefore.get(enemy.id) ?? enemy.hp) > enemy.hp);
             const newLogs = run.combat.log.slice(logCountBefore);
             const triggeredSkillFx = triggeredSkillFromLogs(newLogs);
@@ -360,6 +360,7 @@ function toUiCard(instance: CardInstance, combat?: CombatState): UiCard {
     fxKey: animation.fxKey,
     actionLabel: animation.shortLabel,
     actionTexture: def.assetPath,
+    target: def.target,
     upgraded: instance.upgraded,
     playable: combat ? combat.energy >= def.cost && combat.phase === "player_input" : true
   };

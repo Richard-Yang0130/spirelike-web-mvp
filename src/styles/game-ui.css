@@ -390,6 +390,27 @@ button {
   min-width: 150px;
 }
 
+.enemy-stand.is-targetable {
+  cursor: pointer;
+}
+
+.enemy-stand.is-targetable::after {
+  content: "";
+  position: absolute;
+  inset: -10px -12px 0;
+  z-index: 0;
+  border: 1px solid rgba(216, 163, 62, .72);
+  border-radius: 8px;
+  background: rgba(216, 163, 62, .08);
+  box-shadow: 0 0 24px rgba(216, 163, 62, .22);
+  pointer-events: none;
+}
+
+.enemy-stand.is-targetable:focus-visible {
+  outline: 2px solid rgba(255, 224, 139, .94);
+  outline-offset: 8px;
+}
+
 .enemy-stand--elite {
   min-width: 180px;
 }
@@ -2543,6 +2564,25 @@ button {
 .battle-screen .intent-strip {
   grid-row: 2 / 3;
   align-self: stretch;
+}
+
+.target-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.target-prompt b {
+  color: #ffe08b;
+}
+
+.target-prompt button {
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(216, 163, 62, .58);
+  border-radius: 6px;
+  color: #f6e7c5;
+  background: rgba(24, 18, 12, .78);
 }
 
 .battle-screen .hand-zone {

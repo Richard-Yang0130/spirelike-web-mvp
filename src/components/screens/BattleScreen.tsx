@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { sceneAssets } from "../assets/gameAssets";
 import { CardFxLayer } from "../ui/CardFxLayer";
 import { CharacterSprite } from "../ui/CharacterSprite";
@@ -27,7 +27,7 @@ type BattleScreenProps = {
   currentCardAnimation?: UiCardAnimation | null;
   currentCardFx?: UiCardFx | null;
   onEndTurn?: () => void;
-  onPlayCard?: (card: UiCard) => void;
+  onPlayCard?: (card: UiCard, targetEnemyId?: string) => void;
 };
 
 export function BattleScreen({
@@ -51,6 +51,31 @@ export function BattleScreen({
   onEndTurn,
   onPlayCard,
 }: BattleScreenProps) {
+  const [targetingCard, setTargetingCard] = useState<UiCard | null>(null);
+
+  useEffect(() => {
+    if (targetingCard && !hand.some((card) => card.id === targetingCard.id)) setTargetingCard(null);
+  }, [hand, targetingCard]);
+
+  const canSelectTarget = Boolean(targetingCard);
+
+  const handleCardClick = (card: UiCard) => {
+    if (card.playable === false) return;
+    if (card.target === "enemy") {
+      setTargetingCard((current) => (current?.id === card.id ? null : card));
+      return;
+    }
+    setTargetingCard(null);
+    onPlayCard?.(card);
+  };
+
+  const handleEnemyClick = (enemy: UiEnemy) => {
+    if (!targetingCard || enemy.hp <= 0) return;
+    const card = targetingCard;
+    setTargetingCard(null);
+    onPlayCard?.(card, enemy.id);
+  };
+
   return (
     <section className="battle-screen screen-fill room-enter" key={screenTransitionKey}>
       <aside className="left-hud">
@@ -92,10 +117,20 @@ export function BattleScreen({
           {enemies.map((enemy) => (
             <article
               key={enemy.id}
+              role={canSelectTarget && enemy.hp > 0 ? "button" : undefined}
+              tabIndex={canSelectTarget && enemy.hp > 0 ? 0 : undefined}
+              aria-label={canSelectTarget ? `选择目标 ${enemy.name}` : undefined}
+              onClick={() => handleEnemyClick(enemy)}
+              onKeyDown={(event) => {
+                if (!canSelectTarget || (event.key !== "Enter" && event.key !== " ")) return;
+                event.preventDefault();
+                handleEnemyClick(enemy);
+              }}
               className={[
                 "enemy-stand",
                 `enemy-stand--${enemy.kind ?? "normal"}`,
                 enemy.damaged || damagedEnemyIds.includes(enemy.id) ? "is-damaged" : "",
+                canSelectTarget && enemy.hp > 0 ? "is-targetable" : "",
               ].filter(Boolean).join(" ")}
             >
               <div className="enemy-stand__status">
@@ -123,14 +158,24 @@ export function BattleScreen({
           ))}
         </div>
         <div className="intent-strip">
-          {intentSummary.length ? intentSummary.join(" · ") : "观察敌人意图，规划本回合行动"}
+          {targetingCard ? (
+            <span className="target-prompt">
+              <b>选择一个敌人</b>
+              <span>{targetingCard.name}</span>
+              <button type="button" onClick={() => setTargetingCard(null)}>取消</button>
+            </span>
+          ) : intentSummary.length ? intentSummary.join(" · ") : "观察敌人意图，规划本回合行动"}
         </div>
         <div className="hand-zone">
           <div className="play-track" />
           <div className="hand-row" style={{ "--card-count": hand.length } as CSSProperties}>
             {hand.map((card, index) => (
               <div className="hand-slot" style={{ "--card-index": index } as CSSProperties} key={card.id}>
-                <GameCard card={card} className={playedCardId === card.id ? "is-played" : ""} onClick={onPlayCard} />
+                <GameCard
+                  card={{ ...card, selected: targetingCard?.id === card.id || card.selected }}
+                  className={playedCardId === card.id ? "is-played" : ""}
+                  onClick={handleCardClick}
+                />
               </div>
             ))}
           </div>
